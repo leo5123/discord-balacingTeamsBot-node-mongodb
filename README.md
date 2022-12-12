@@ -1,3 +1,4 @@
+## English explanation
 This bot was coded in the english language, to use him you need to change some ids in the code, the files that need changes are:
 * index.js
 * handleCommands
