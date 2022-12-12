@@ -35,13 +35,19 @@ module.exports = {
                 client.channels.cache.filter((c) => c.name === 'red🔴').forEach(channel => {
                     channel.fetch().then(async (channel) => {
 
-                        for (let i = 0; i < storedPug.length; i++) {
+                        for (let i = 0; i < 13; i++) {
                             storedPug.forEach(async team => {
+
                                 let guild = client.guilds.cache.get('1047949204061954078');
                                 let member = guild.members.cache.get(team.redPlayers[i]);
+
+
                                 try {
 
+
                                     await member.voice.setChannel(`${channel.id}`)
+
+
                                 } catch (error) {
                                     console.log(error);
                                 }
@@ -49,10 +55,8 @@ module.exports = {
 
 
 
-
-
-
                             })
+
                         }
                     })
                 })
@@ -60,7 +64,7 @@ module.exports = {
                 client.channels.cache.filter((c) => c.name === 'blue🔵').forEach(channel => {
                     channel.fetch().then(async (channel) => {
 
-                        for (let i = 0; i < storedPug.length; i++) {
+                        for (let i = 0; i < 13; i++) {
                             storedPug.forEach(async team => {
 
                                 let guild = client.guilds.cache.get('1047949204061954078');
@@ -69,7 +73,10 @@ module.exports = {
 
                                 try {
 
+
                                     await member.voice.setChannel(`${channel.id}`)
+
+
                                 } catch (error) {
                                     console.log(error);
                                 }

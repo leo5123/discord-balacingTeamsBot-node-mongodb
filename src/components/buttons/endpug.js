@@ -15,29 +15,50 @@ module.exports = {
     },
     async execute(interaction, client) {
 
-        const storedPlayers = await pugone.find({ pugId: '1' })
+        let guildMemberID = []
+        client.channels.cache.filter((c) => c.name === 'red🔴').forEach(channel => {
+            channel.fetch().then(async (channel) => {
+                console.log(channel.name);
+                for (let [snowflake, guildMember] of channel.members) {
 
-        for (let i = 0; i < storedPlayers.length; i++) {
+                    let guild = client.guilds.cache.get('1047949204061954078');
+                    let member = guild.members.cache.get(`${guildMember.id}`);
+                    console.log(member)
 
-
-            let guild = client.guilds.cache.get('1047949204061954078');
-            storedPlayers.forEach(async (team) => {
-                try {
-                    let blueMember = guild.members.cache.get(team.bluePlayers[i]);
-                    let redMember = guild.members.cache.get(team.redPlayers[i]);
-
-                    await blueMember.voice.setChannel(`1048334415970975795`)
-                    await redMember.voice.setChannel(`1048325545101897739`)
+                    try {
 
 
-                } catch (error) {
-                    console.log(error);
+                        await member.voice.setChannel(`1047949221820633201`)
+
+
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
-            })
-        }
+            });
+        });
+
+        client.channels.cache.filter((c) => c.name === 'blue🔵').forEach(channel => {
+            channel.fetch().then(async (channel) => {
+                console.log(channel.name);
+                for (let [snowflake, guildMember] of channel.members) {
+                    let guild = client.guilds.cache.get('1047949204061954078');
+                    let member = guild.members.cache.get(`${guildMember.id}`);
+                    console.log(member)
+
+                    try {
 
 
+                        await member.voice.setChannel(`1047949221820633201`)
 
+
+                    } catch (error) {
+                        console.log(error);
+                    }
+
+                }
+            });
+        });
 
         await pugone.findOneAndUpdate(
             { pugId: '1' },

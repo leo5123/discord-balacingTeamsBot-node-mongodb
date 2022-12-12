@@ -1,5 +1,5 @@
 const Player = require('../../schemas/player');
-const { SlashCommandBuilder, EmbedBuilder, Client, Message, GuildMember, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Message, GuildMember, PermissionFlagsBits, SlashCommandSubcommandBuilder } = require('discord.js');
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 const moongose = require('mongoose');
 const fetchElo = require('../../functions/pug/fetchElo');
@@ -24,6 +24,15 @@ module.exports = {
     async execute(interaction, client) {
 
 
+        await pugone.findOneAndUpdate(
+            { pugId: '1' },
+            {
+                redPlayers: [''],
+                bluePlayers: ['']
+
+            }
+
+        );
 
 
         let channelParticipants = []
@@ -84,85 +93,109 @@ module.exports = {
                         .sort(({ scoreDiff: a }, { scoreDiff: b }) => a - b)
                         .slice(0, n)
 
-                const result = []
+                let result = []
                 // the values are sent randomized so we can scramble teams.
                 while (storedElo.length) {
                     const index = Math.floor(Math.random() * storedElo.length);
                     result.push(storedElo.splice(index, 1)[0]);
 
                 }
+                let arrayID = []
+                let nextGamePlayers = []
+                client.channels.cache.filter((c) => c.name === 'Next game').forEach(channel => {
+                    channel.fetch().then(async (channel) => {
+                        console.log(channel.name);
+                        for (let [snowflake, guildMember] of channel.members) {
+
+                            arrayID.push(guildMember.id)
+                        }
+                        const storedEloNext = await Player.find({ discordId: arrayID })
+
+                        while (storedEloNext.length) {
+                            const index = Math.floor(Math.random() * storedEloNext.length);
+                            nextGamePlayers.push(storedEloNext.splice(index, 1)[0]);
+
+                        }
+                        nextGamePlayers = nextGamePlayers.slice(0, 20)
 
 
-                // sample data
-                let presentPlayers = result
+                        result = [...nextGamePlayers, ...result]
 
-                let redTeam = []
-                let blueTeam = []
+                        result = result.slice(0, 20)
+                        // sample data
+                        let presentPlayers = result
 
-                // demo
-                const display = (splits) =>
-                    splits.map(({ teamA, teamB, scoreDiff }) => `(Player: ${teamA.map(a => `${a.lastUsername}`).join(', ')}, elo: ${skillTotal(teamA)}) vs (Player: ${teamB.map(b => `${b.lastUsername}`).join(', ')}, elo: ${skillTotal(teamB)}),  diff = ${scoreDiff
-                        }`).join('\n')
+                        let redTeam = []
+                        let blueTeam = []
 
-                const displayIds = (splits) =>
-                    splits.map(({ teamA, teamB, scoreDiff }) => {
-                        teamA.map(async (a) => {
-                            redTeam.push(a.discordId)
+                        // demo
+                        const display = (splits) =>
+                            splits.map(({ teamA, teamB, scoreDiff }) => `(Player: ${teamA.map(a => `${a.lastUsername}`).join(', ')}, elo: ${skillTotal(teamA)}) vs (Player: ${teamB.map(b => `${b.lastUsername}`).join(', ')}, elo: ${skillTotal(teamB)}),  diff = ${scoreDiff
+                                }`).join('\n')
+
+                        const displayIds = (splits) =>
+                            splits.map(({ teamA, teamB, scoreDiff }) => {
+                                teamA.map(async (a) => {
+                                    redTeam.push(a.discordId)
 
 
-                            await pugone.findOneAndUpdate(
-                                { pugId: '1' },
-                                {
-                                    redPlayers: redTeam
+                                    await pugone.findOneAndUpdate(
+                                        { pugId: '1' },
+                                        {
+                                            redPlayers: redTeam
+                                        })
                                 })
-                        })
 
-                        teamB.map(async (b) => {
-                            blueTeam.push(b.discordId)
+                                teamB.map(async (b) => {
+                                    blueTeam.push(b.discordId)
 
 
-                            await pugone.findOneAndUpdate(
-                                { pugId: '1' },
-                                {
-                                    bluePlayers: blueTeam
+                                    await pugone.findOneAndUpdate(
+                                        { pugId: '1' },
+                                        {
+                                            bluePlayers: blueTeam
+                                        })
                                 })
-                        })
-                    })
+                            })
 
-                displayIds((nClosestSplits(1, presentPlayers)))
-
-
-                channelParticipants.push(display(nClosestSplits(1, presentPlayers)))
-                console.log(channelParticipants)
-
-                const button2 = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('done')
-                            .setLabel('Done!')
-                            .setStyle(ButtonStyle.Primary)
-                    )
-
-                const button = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('scramble')
-                            .setLabel('Scramble')
-                            .setStyle(ButtonStyle.Primary),
-                    );
+                        displayIds((nClosestSplits(1, presentPlayers)))
 
 
-                await interaction.reply({
-                    content: `If a player doesnt show up here use /elo on him: 
+                        channelParticipants.push(display(nClosestSplits(1, presentPlayers)))
+                        console.log(channelParticipants)
+
+                        const button2 = new ActionRowBuilder()
+                            .addComponents(
+                                new ButtonBuilder()
+                                    .setCustomId('done')
+                                    .setLabel('Done!')
+                                    .setStyle(ButtonStyle.Primary)
+                            )
+
+                        const button = new ActionRowBuilder()
+                            .addComponents(
+                                new ButtonBuilder()
+                                    .setCustomId('scramble')
+                                    .setLabel('Scramble')
+                                    .setStyle(ButtonStyle.Primary),
+                            );
+
+
+                        await interaction.reply({
+                            content: `If a player doesnt show up here use /elo on him: 
                     ${channelParticipants}`,
-                    components: [button, button2],
+                            components: [button, button2],
 
-                    ephemeral: true,
-                })
+                            ephemeral: true,
+                        })
 
+
+                    });
+                });
 
             });
         });
+
 
 
 
