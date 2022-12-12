@@ -12,9 +12,10 @@ Max: 12 players, 2 teams, easily changable in the startpug and scramble files.
 
 ## Informação geral
 Bot do discord que atribui elo a jogadores e balanceia times.
+
 Máximo 12 jogadores, 2 times, facilmente modificável nos arquivos startpug e scramble.
 
- Todas as respostas e comandos estão na lingua inglesa.
+ > Todas as respostas e comandos estão na lingua inglesa.
 
 *Feito por leo5123*
 
