@@ -12,8 +12,8 @@ This bot was coded in the english language, to use him you need to change some i
 Bot do discord que atribui elo a jogadores e balanceia times.
 Máximo 12 jogadores, 2 times, facilmente modificável nos arquivos startpug e scramble.
 
-*Todas as respostas e comandos estão na lingua inglesa.
-*Feito por leo5123
+* Todas as respostas e comandos estão na lingua inglesa.
+* Feito por leo5123
 
 
 	
