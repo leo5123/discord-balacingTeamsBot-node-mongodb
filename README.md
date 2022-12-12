@@ -1,34 +1,38 @@
 ## English explanation
  
-This bot was coded in the english language, to use him you need to change some ids in the code, the files that need changes are:
+This bot was coded in the english language, to use him in your server you need to change some ids in the code, the files that need changes are:
 * index.js
 * handleCommands
 * startpug.js
 * done/endpug/scramble.js
 
-Max: 12 players, 2 teams, easily changable in the startpug and scramble files.
+## Functionalities
 
-*Made by leo5123*
+* Assigns elo
+* Edits elo
+* Distributes balanced teams
+* Scramble and balances teams
+* Prioritize players in the next game channel
+* Maximum 12 players, 2 teams
+
+*Made by [leo5123](https://github.com/leo5123).*
+
 
 ## Informação geral
 Bot do discord que atribui elo a jogadores e balanceia times.
 
-Máximo 12 jogadores, 2 times, facilmente modificável nos arquivos startpug e scramble.
-
  > Todas as respostas e comandos estão na lingua inglesa.
 
-*Feito por leo5123*
+*Feito por [leo5123](https://github.com/leo5123).*
 
+## Funcionalidades
 
-	
-## Dependências
-Project is created with:
-
-* Discord.js
-* Mongoose
-* Nodemon
-* Dotenv
-* Chalk
+* Atribui elos
+* Edita elos
+* Forma times balanceados
+* Mistura times balanceados
+* Prioriza jogadores na sala próximo jogo
+* Máximo 12 jogadores 2 times
 
 	
 ## Setup
