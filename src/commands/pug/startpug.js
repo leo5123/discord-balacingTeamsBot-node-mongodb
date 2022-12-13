@@ -102,6 +102,7 @@ module.exports = {
                 }
                 let arrayID = []
                 let nextGamePlayers = []
+                let throwInNextGame = []
                 client.channels.cache.filter((c) => c.name === 'Next game').forEach(channel => {
                     channel.fetch().then(async (channel) => {
                         console.log(channel.name);
@@ -116,15 +117,29 @@ module.exports = {
                             nextGamePlayers.push(storedEloNext.splice(index, 1)[0]);
 
                         }
-                        nextGamePlayers = nextGamePlayers.slice(0, 20)
-
-
+                        nextGamePlayers = nextGamePlayers.slice(0, 12)
                         result = [...nextGamePlayers, ...result]
+                        throwInNextGame = result.slice(12, 50)
 
-                        result = result.slice(0, 20)
+                        for (let i = 0; i < throwInNextGame.length; i++) {
+                            let guild = client.guilds.cache.get('1047949204061954078');
+                            let playersId = []
+                            throwInNextGame.forEach(player => {
+                                playersId.push(player.discordId)
+                            })
+                            let member = guild.members.cache.get(playersId[i]);
+                            try {
+                                await member.voice.setChannel(`${channel.id}`)
+                                console.log('we tried')
+                            } catch (error) {
+                                console.log(error);
+                            }
+                        }
+                        result = result.slice(0, 12)
+
                         // sample data
                         let presentPlayers = result
-
+                        console.log(throwInNextGame)
                         let redTeam = []
                         let blueTeam = []
 
