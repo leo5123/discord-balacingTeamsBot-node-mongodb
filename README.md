@@ -15,6 +15,15 @@ This bot was coded in the english language, to use him in your server you need t
 * Prioritize players in the next game channel
 * Maximum 12 players, 2 teams
 
+## Setup
+
+
+```
+$ discord-balacingTeamsBot-node-mongodb
+$ npm install
+$ npm test
+```
+
 *Made by [leo5123](https://github.com/leo5123).*
 
 
@@ -46,7 +55,6 @@ Para rodar esse projeto, instale-o localmente usando o npm:
 $ discord-balacingTeamsBot-node-mongodb
 $ npm install
 $ npm test
-
 ```
 
 
