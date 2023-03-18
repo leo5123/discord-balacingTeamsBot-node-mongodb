@@ -53,7 +53,7 @@ module.exports = {
 
 
 
-                // utility functions
+               
                 const sum = (ns) => ns.reduce((a, b) => a + b, 0)
 
                 const combinations = (xs, n) =>
@@ -78,12 +78,12 @@ module.exports = {
                         ).all
 
 
-                // helper function
+                
                 const skillTotal = (players) =>
                     sum(players.map(p => p.elo))
 
 
-                // main function
+               
                 const nClosestSplits = (n, players) =>
                     splits(xs => xs.map(x => x.lastUsername).join('~'), players).map(([a, b]) => ({
                         teamA: a,
@@ -94,7 +94,7 @@ module.exports = {
                         .slice(0, n)
 
                 let result = []
-                // the values are sent randomized so we can scramble teams.
+               
                 while (storedElo.length) {
                     const index = Math.floor(Math.random() * storedElo.length);
                     result.push(storedElo.splice(index, 1)[0]);
@@ -137,13 +137,13 @@ module.exports = {
                         }
                         result = result.slice(0, 12)
 
-                        // sample data
+                       
                         let presentPlayers = result
                         console.log(throwInNextGame)
                         let redTeam = []
                         let blueTeam = []
 
-                        // demo
+                        
                         const display = (splits) =>
                             splits.map(({ teamA, teamB, scoreDiff }) => `(Player: ${teamA.map(a => `${a.lastUsername}`).join(', ')}, elo: ${skillTotal(teamA)}) vs (Player: ${teamB.map(b => `${b.lastUsername}`).join(', ')}, elo: ${skillTotal(teamB)}),  diff = ${scoreDiff
                                 }`).join('\n')
