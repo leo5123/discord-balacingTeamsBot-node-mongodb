@@ -32,8 +32,6 @@ Bot do discord que atribui elo a jogadores e balanceia times.
 
  > Todas as respostas e comandos estão na lingua inglesa.
 
-*Feito por [leo5123](https://github.com/leo5123).*
-
 ## Funcionalidades
 
 * Atribui elos
